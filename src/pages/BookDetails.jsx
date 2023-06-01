@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useFireBase } from "../contexts";
+import { useFireBase, useAlert } from "../contexts";
 import Form from "react-bootstrap/Form";
 
 const BookDetails = () => {
   const params = useParams();
   const firebase = useFireBase();
+  const customAlert = useAlert();
   const [bookData, setBookData] = useState(null);
   const [url, setUrl] = useState(null);
   const [qty, setQty] = useState(1);
@@ -30,6 +31,10 @@ const BookDetails = () => {
       setQty(1);
       return;
     }
+    customAlert.showAlert(
+      `${qty} ${bookData.name} Book's 📕 are Buyed 🛒 successfully`,
+      "info"
+    );
     await firebase.placeOrder(params.bookId, qty);
   };
 
@@ -56,8 +61,8 @@ const BookDetails = () => {
                   borderRadius: "10px",
                   objectFit: "cover",
                   height: "25rem",
-                  objectPosition: "top",
-                  width: "35rem",
+                  objectPosition: "center",
+                  maxWidth: "35rem",
                 }}
               />
             )}
@@ -69,12 +74,13 @@ const BookDetails = () => {
             <h4>Owner Details</h4>
             <div className="d-flex mb-3">
               <img
-                src={bookData.photoURL}
+                src={bookData.photoURL === null ? "/DefaultUser.png" : bookData.photoURL}
                 alt="image"
-                style={{ borderRadius: "50%" }}
+                style={{ borderRadius: "50%" , maxWidth: '5rem'}} 
               />
+
               <div className="box mx-4 d-flex flex-column align-items-start justify-content-center">
-                <p>Name : {bookData.displayName}</p>
+                <p>Name : {bookData.displayName === null ? 'Anonymous' : bookData.displayName}</p>
                 <p>Email : {bookData.userEmail}</p>
               </div>
             </div>

@@ -20,13 +20,20 @@ const Cards = (props) => {
       {url && (
         <Card.Img
           variant="top"
-          style={{ height: "15rem", objectFit: "cover", objectPosition: 'top' }}
+          // style={{ height: "15rem", objectFit: "cover", objectPosition: 'top' }}
+          style={{
+            borderRadius: "10px",
+            objectFit: "cover",
+            height: "25rem",
+            objectPosition: "top",
+            maxWidth: "35rem",
+          }}
           src={url}
         />
       )}
       <Card.Body>
         <Card.Title>
-          This book has a title {props.name} and this book is sold by{" "}
+          This book has a title {props.name.substring(0,35)}.. and this book is sold by{" "}
           {props.displayName} & this book cost ruppee {props.price}
         </Card.Title>
         <Card.Text>price of this is {props.price}</Card.Text>
